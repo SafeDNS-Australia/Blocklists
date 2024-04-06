@@ -39,7 +39,7 @@ while [ $TOTAL_COMMITS -gt 1 ]; do
         # Check if the blocklist is effective
         if check_dns_resolution; then
             echo "Configuration and blocklist are effective."
-            mv "$LOG_FILE" "$REPO_PATH" # Move log file to the repository root directory
+            [[ -s "$LOG_FILE" ]] && mv "$LOG_FILE" "$REPO_PATH" # Move log file to the repository root directory
             exit 0
         fi
     else
