@@ -3,7 +3,7 @@
 # Set variables
 REPO_PATH="/etc/bind/blocklists" # Path to your Git repository
 DOMAIN_TO_TEST="xxx.com" # Domain to test the blocklist effectiveness
-LOG_FILE="/tmp/blocklist_errors.log" # Temporary log file for errors
+LOG_FILE=$(mktemp) # Temporary log file for errors
 
 # Create or clear the log file
 > "$LOG_FILE"
