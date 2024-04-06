@@ -43,10 +43,10 @@ while [ $TOTAL_COMMITS -gt 1 ]; do
             exit 0
         fi
     else
-        echo "rndc reconfig failed, error logged. Rolling back to the previous commit..." | tee -a "$LOG_FILE"
-        git reset --hard HEAD~1
-        ((TOTAL_COMMITS--))
+        echo "rndc reconfig failed, error logged. Rolling back to the previous commit..." | tee -a "$LOG_FILE"   
     fi
+    git reset --hard HEAD~1
+    ((TOTAL_COMMITS--))
 done
 
 echo "Reached the initial commit or failed to reconfigure successfully. Manual investigation required. Logs are in $LOG_FILE."
