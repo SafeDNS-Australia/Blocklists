@@ -26,24 +26,24 @@ check_dns_resolution() {
 }
 
 # Calculate total number of commits
-TOTAL_COMMITS=$(git rev-list --count HEAD)
+INITIAL_COMMIT_NUM=$(git rev-list --count HEAD)
+COMMITS_COUNTER=$(git rev-list --count HEAD)
 
 # Attempt to reconfigure and rollback on failure
-while [ $TOTAL_COMMITS -gt 1 ]; do
+while [ $COMMITS_COUNTER -gt 1 ]; do
     # Attempt to reconfigure BIND
     rndc reconfig 2>> "$LOG_FILE"
     if [ $? -eq 0 ]; then
         # Check if the blocklist is effective
         if check_dns_resolution; then
-            echo "Configuration and blocklist are effective."
-            [[ -s "$LOG_FILE" ]] && mv "$LOG_FILE" "$REPO_PATH" # Move log file to the repository root directory
+            echo "Configuration and blocklist are effective. Total commits: $COMMITS_COUNTER, Initial commit num: $INITIAL_COMMIT_NUM" | tee -a "$LOG_FILE"
             exit 0
         fi
     else
         echo "rndc reconfig failed, error logged. Rolling back to the previous commit..." | tee -a "$LOG_FILE"   
     fi
     git reset --hard HEAD~1
-    ((TOTAL_COMMITS--))
+    ((COMMITS_COUNTER--))
 done
 
 echo "Reached the initial commit or failed to reconfigure successfully. Manual investigation required. Logs are in $LOG_FILE."
