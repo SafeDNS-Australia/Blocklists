@@ -3,10 +3,7 @@
 # Set variables
 REPO_PATH="/etc/bind/blocklists" # Path to your Git repository
 DOMAIN_TO_TEST="xxx.com" # Domain to test the blocklist effectiveness
-LOG_FILE=$(mktemp) # Temporary log file for errors
-
-# Create or clear the log file
-> "$LOG_FILE"
+LOG_FILE="/var/log/named/blocklist_error.log" # Temporary log file for errors
 
 # Change directory to the repository
 cd "$REPO_PATH" || { echo "Failed to change directory. Exiting..."; exit 1; }
