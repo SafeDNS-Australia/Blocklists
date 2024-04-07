@@ -36,7 +36,7 @@ while [ $COMMITS_COUNTER -gt 1 ]; do
     if [ $? -eq 0 ]; then
         # Check if the blocklist is effective
         if check_dns_resolution; then
-            echo "Configuration and blocklist are effective. Total commits: $COMMITS_COUNTER, Initial commit num: $INITIAL_COMMIT_NUM" | tee -a "$LOG_FILE"
+            echo "Configuration and blocklist are effective. Commits until no error: $COMMITS_COUNTER, Initial commit num: $INITIAL_COMMIT_NUM" | tee -a "$LOG_FILE"
             exit 0
         fi
     else
